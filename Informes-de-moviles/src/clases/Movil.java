@@ -9,6 +9,16 @@ public class Movil {
 	private List<Observacion> observaciones = new ArrayList<>();
 	private boolean enElTaller;
 	private boolean necesitaTaller;
+	private String kilometraje;
+	
+
+	public String getKilometraje() {
+		return kilometraje;
+	}
+
+	public void setKilometraje(String kilometraje) {
+		this.kilometraje = kilometraje;
+	}
 
 	public String getDominio() {
 		return dominio;
@@ -49,6 +59,9 @@ public class Movil {
 	public String toString() {
 		return this.getDominio();
 	}
+	
+	
+	
 	
 	
 
