@@ -46,6 +46,10 @@ public class Movil {
 		observaciones.add(new Observacion("observacion", this));
 	}
 	
+	public String toString() {
+		return this.getDominio();
+	}
+	
 	
 
 }

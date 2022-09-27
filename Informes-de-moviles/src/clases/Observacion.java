@@ -6,6 +6,15 @@ public class Observacion {
 	private String obs;
 	private LocalDateTime fecha;
 	private Movil movil;
+	private boolean fueSolucionado;
+
+	public boolean isFueSolucionado() {
+		return fueSolucionado;
+	}
+
+	public void setFueSolucionado(boolean fueSolucionado) {
+		this.fueSolucionado = fueSolucionado;
+	}
 
 	public Movil getMovil() {
 		return movil;
