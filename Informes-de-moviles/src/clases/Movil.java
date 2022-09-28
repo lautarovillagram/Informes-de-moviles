@@ -60,6 +60,10 @@ public class Movil {
 		return this.getDominio();
 	}
 	
+	public Movil(String dominio) {
+		this.dominio = dominio;
+	}
+	
 	
 	
 	
