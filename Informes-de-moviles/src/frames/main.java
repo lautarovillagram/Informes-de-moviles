@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Movil;
+import clases.Observacion;
 import clases.Sistema;
 
 import javax.swing.JTextField;
@@ -120,6 +121,19 @@ public class main extends JFrame {
 		scrollMes1.setViewportView(textArea);
 
 		JButton btnVerObservaciones = new JButton("ver observaciones");
+		btnVerObservaciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnVerObservaciones) {
+					Movil movilSeleccionado = (Movil) comboVerObservaciones.getSelectedItem();
+					textArea.setText("");
+					
+					for (Observacion observacion : movilSeleccionado.getObservaciones()) {
+						textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/" + observacion.getFecha().getMonthValue() + "\n");
+					}
+					
+				}
+			}
+		});
 		btnVerObservaciones.setBounds(208, 67, 191, 21);
 		contentPane.add(btnVerObservaciones);
 
@@ -164,6 +178,10 @@ public class main extends JFrame {
 		textAgregarObs.setColumns(10);
 
 		JButton btnAgregarObs = new JButton("agregar observacion");
+		btnAgregarObs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAgregarObs.setBounds(930, 144, 168, 20);
 		contentPane.add(btnAgregarObs);
 
