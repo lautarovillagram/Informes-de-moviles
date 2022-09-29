@@ -95,10 +95,10 @@ public class main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnAgregarMovil) {
 					
-					Movil movilAAgregar = new Movil(textAgregarMovil.getSelectedText());
+					Movil movilAAgregar = new Movil(textAgregarMovil.getText());
 					getSistema().getMoviles().add(movilAAgregar);
 					JOptionPane.showMessageDialog(null, "Movil agregado");
-					
+					textAgregarMovil.setText("");
 					llenarCombos();
 				}
 
