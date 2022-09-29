@@ -10,7 +10,25 @@ public class Movil {
 	private boolean enElTaller;
 	private boolean necesitaTaller;
 	private String kilometraje;
+	private boolean tieneCriquet;
+	private boolean tieneMatafuego;
 	
+
+	public boolean isTieneCriquet() {
+		return tieneCriquet;
+	}
+
+	public void setTieneCriquet(boolean tieneCriquet) {
+		this.tieneCriquet = tieneCriquet;
+	}
+
+	public boolean isTieneMatafuego() {
+		return tieneMatafuego;
+	}
+
+	public void setTieneMatafuego(boolean tieneMatafuego) {
+		this.tieneMatafuego = tieneMatafuego;
+	}
 
 	public String getKilometraje() {
 		return kilometraje;

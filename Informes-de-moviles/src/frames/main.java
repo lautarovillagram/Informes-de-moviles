@@ -34,7 +34,21 @@ public class main extends JFrame {
 	JComboBox comboVerObservaciones = new JComboBox();
 	JComboBox comboVerMovil = new JComboBox();
 	JComboBox comboQuitarObservacion = new JComboBox();
+	JCheckBox checkMatafuego = new JCheckBox("matafuego");
+	JCheckBox checkCriquet = new JCheckBox("criquet");
+	JCheckBox checkNecesitaTaller = new JCheckBox("necesita taller");
+	JCheckBox checkEnElTaller = new JCheckBox("en el taller");
 	private Sistema sistema;
+
+	private Movil movilActualizandose;
+
+	public Movil getMovilActualizandose() {
+		return movilActualizandose;
+	}
+
+	public void setMovilActualizandose(Movil movilActualizandose) {
+		this.movilActualizandose = movilActualizandose;
+	}
 
 	public Sistema getSistema() {
 		return sistema;
@@ -43,7 +57,6 @@ public class main extends JFrame {
 	public void setSistema(Sistema sistema) {
 		this.sistema = sistema;
 	}
-
 
 	/**
 	 * Launch the application.
@@ -61,8 +74,7 @@ public class main extends JFrame {
 		});
 	}
 
-	public void llenarCombos() {
-		comboVerObservaciones.removeAllItems();
+	public void cargarMoviles() {
 		comboVerMovil.removeAllItems();
 		comboQuitarObservacion.removeAllItems();
 
@@ -74,14 +86,22 @@ public class main extends JFrame {
 
 	}
 
+		
+	public void cargarObservaciones() {
+		comboQuitarObservacion.removeAllItems();
+		Movil movilSeleccionado = (Movil) comboVerMovil.getSelectedItem();
+		for (Observacion observacion : movilSeleccionado.getObservaciones()) {
+			comboQuitarObservacion.addItem(observacion);
+		}
+	}
+	
 	public main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1240, 517);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSistema(new Sistema());
-		llenarCombos();
-		
+		cargarMoviles();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -95,12 +115,12 @@ public class main extends JFrame {
 		btnAgregarMovil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnAgregarMovil) {
-					
+
 					Movil movilAAgregar = new Movil(textAgregarMovil.getText());
 					getSistema().getMoviles().add(movilAAgregar);
 					JOptionPane.showMessageDialog(null, "Movil agregado");
 					textAgregarMovil.setText("");
-					llenarCombos();
+					cargarMoviles();
 				}
 
 			}
@@ -126,11 +146,12 @@ public class main extends JFrame {
 				if (e.getSource() == btnVerObservaciones) {
 					Movil movilSeleccionado = (Movil) comboVerObservaciones.getSelectedItem();
 					textArea.setText("");
-					
+
 					for (Observacion observacion : movilSeleccionado.getObservaciones()) {
-						textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/" + observacion.getFecha().getMonthValue() + "\n");
+						textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
+								+ observacion.getFecha().getMonthValue() + "\n");
 					}
-					
+
 				}
 			}
 		});
@@ -146,6 +167,21 @@ public class main extends JFrame {
 		contentPane.add(comboVerMovil);
 
 		JButton btnVerMovil = new JButton("ver");
+		btnVerMovil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnVerMovil) {
+					Movil movilSeleccionado = (Movil) comboVerMovil.getSelectedItem();
+					movilActualizandose = movilSeleccionado;
+					checkCriquet.setSelected(movilSeleccionado.isTieneCriquet());
+					checkMatafuego.setSelected(movilSeleccionado.isTieneMatafuego());
+					checkNecesitaTaller.setSelected(movilSeleccionado.isNecesitaTaller());
+					checkEnElTaller.setSelected(movilSeleccionado.isEnElTaller());
+					cargarObservaciones();
+					
+					
+				}
+			}
+		});
 		btnVerMovil.setBounds(899, 53, 89, 23);
 		contentPane.add(btnVerMovil);
 
@@ -164,11 +200,9 @@ public class main extends JFrame {
 		btnLimpiarTodas.setBounds(1089, 175, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
-		JCheckBox checkEnElTaller = new JCheckBox("en el taller");
 		checkEnElTaller.setBounds(665, 83, 97, 23);
 		contentPane.add(checkEnElTaller);
 
-		JCheckBox checkNecesitaTaller = new JCheckBox("necesita taller");
 		checkNecesitaTaller.setBounds(764, 83, 125, 23);
 		contentPane.add(checkNecesitaTaller);
 
@@ -180,6 +214,7 @@ public class main extends JFrame {
 		JButton btnAgregarObs = new JButton("agregar observacion");
 		btnAgregarObs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btnAgregarObs.setBounds(930, 144, 168, 20);
@@ -198,11 +233,9 @@ public class main extends JFrame {
 		btnActualizarKm.setBounds(697, 113, 180, 20);
 		contentPane.add(btnActualizarKm);
 
-		JCheckBox checkCriquet = new JCheckBox("criquet");
 		checkCriquet.setBounds(899, 83, 97, 23);
 		contentPane.add(checkCriquet);
 
-		JCheckBox checkMatafuego = new JCheckBox("matafuego");
 		checkMatafuego.setBounds(998, 83, 97, 23);
 		contentPane.add(checkMatafuego);
 
