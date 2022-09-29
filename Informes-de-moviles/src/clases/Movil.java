@@ -53,7 +53,7 @@ public class Movil {
 	}
 
 	public void agregarObservacion(String observacion) {
-		observaciones.add(new Observacion("observacion", this));
+		observaciones.add(0, new Observacion("observacion", this));
 	}
 	
 	public String toString() {
