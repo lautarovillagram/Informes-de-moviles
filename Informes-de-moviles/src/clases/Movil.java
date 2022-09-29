@@ -82,6 +82,15 @@ public class Movil {
 		this.dominio = dominio;
 	}
 	
+	public Movil (String dominio, boolean enTaller, boolean necesitaTaller, boolean tieneMatafuego, boolean tieneCriquet, String kilometros) {
+		this.dominio = dominio;
+		this.enElTaller = enTaller;
+		this.necesitaTaller = necesitaTaller;
+		this.tieneMatafuego = tieneMatafuego;
+		this.tieneCriquet = tieneCriquet;
+		this.kilometraje = kilometros;
+	}
+	
 	
 	
 	

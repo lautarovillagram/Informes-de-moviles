@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class main extends JFrame {
@@ -86,7 +87,6 @@ public class main extends JFrame {
 
 	}
 
-		
 	public void cargarObservaciones() {
 		comboQuitarObservacion.removeAllItems();
 		Movil movilSeleccionado = (Movil) comboVerMovil.getSelectedItem();
@@ -94,7 +94,7 @@ public class main extends JFrame {
 			comboQuitarObservacion.addItem(observacion);
 		}
 	}
-	
+
 	public main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1240, 517);
@@ -105,7 +105,7 @@ public class main extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		textKm = new JTextField();
 		textAgregarMovil = new JTextField();
 		textAgregarMovil.setBounds(22, 11, 86, 20);
 		contentPane.add(textAgregarMovil);
@@ -128,6 +128,7 @@ public class main extends JFrame {
 		btnAgregarMovil.setBounds(127, 10, 149, 20);
 		contentPane.add(btnAgregarMovil);
 
+		JLabel lblDominio = new JLabel("");
 		comboVerObservaciones.setBounds(22, 67, 180, 20);
 		contentPane.add(comboVerObservaciones);
 
@@ -163,7 +164,7 @@ public class main extends JFrame {
 		lblModificarMovil.setBounds(787, 10, 149, 18);
 		contentPane.add(lblModificarMovil);
 
-		comboVerMovil.setBounds(697, 54, 140, 20);
+		comboVerMovil.setBounds(697, 32, 140, 20);
 		contentPane.add(comboVerMovil);
 
 		JButton btnVerMovil = new JButton("ver");
@@ -176,16 +177,33 @@ public class main extends JFrame {
 					checkMatafuego.setSelected(movilSeleccionado.isTieneMatafuego());
 					checkNecesitaTaller.setSelected(movilSeleccionado.isNecesitaTaller());
 					checkEnElTaller.setSelected(movilSeleccionado.isEnElTaller());
+					textKm.setText(movilSeleccionado.getKilometraje());
+					lblDominio.setText("Movil " + movilSeleccionado.toString());
 					cargarObservaciones();
-					
+
+				}
+			}
+		});
+		btnVerMovil.setBounds(893, 31, 89, 23);
+		contentPane.add(btnVerMovil);
+
+		JButton btnActualizarMovil = new JButton("actualizar");
+		btnActualizarMovil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnActualizarMovil) {
+					String dominioDelActualizado = getMovilActualizandose().toString();
+					List<Movil> movilesSinElActualizado = getSistema().getMoviles().stream()
+							.filter(m -> m.getDominio() != dominioDelActualizado).toList();
+
+					Movil movilActualizado = new Movil(getMovilActualizandose().getDominio(),
+							checkEnElTaller.isSelected(), checkNecesitaTaller.isSelected(), checkMatafuego.isSelected(),
+							checkCriquet.isSelected(), textKm.getText());
+					getSistema().setMoviles(movilesSinElActualizado);
+					getSistema().getMoviles().add(movilActualizado);
 					
 				}
 			}
 		});
-		btnVerMovil.setBounds(899, 53, 89, 23);
-		contentPane.add(btnVerMovil);
-
-		JButton btnActualizarMovil = new JButton("actualizar");
 		btnActualizarMovil.setBounds(825, 206, 111, 23);
 		contentPane.add(btnActualizarMovil);
 
@@ -214,7 +232,10 @@ public class main extends JFrame {
 		JButton btnAgregarObs = new JButton("agregar observacion");
 		btnAgregarObs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				if (e.getSource() == btnAgregarObs) {
+					Observacion obs = new Observacion(textAgregarObs.getText(), getMovilActualizandose());
+					getMovilActualizandose().getObservaciones().add(0, obs);
+				}
 			}
 		});
 		btnAgregarObs.setBounds(930, 144, 168, 20);
@@ -224,7 +245,6 @@ public class main extends JFrame {
 		btnVerSolucionadas.setBounds(409, 67, 147, 21);
 		contentPane.add(btnVerSolucionadas);
 
-		textKm = new JTextField();
 		textKm.setBounds(595, 113, 86, 20);
 		contentPane.add(textKm);
 		textKm.setColumns(10);
@@ -243,5 +263,9 @@ public class main extends JFrame {
 		lblInfoMovil.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInfoMovil.setBounds(32, 92, 516, 20);
 		contentPane.add(lblInfoMovil);
+
+		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDominio.setBounds(787, 58, 156, 18);
+		contentPane.add(lblDominio);
 	}
 }
