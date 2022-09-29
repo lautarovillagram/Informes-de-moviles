@@ -91,6 +91,18 @@ public class Movil {
 		this.kilometraje = kilometros;
 	}
 	
+	public List<Observacion> getObsSinSolucionar() {
+		List<Observacion> observacionesSinSolucionar = this.getObservaciones().stream().filter(o -> !o.isFueSolucionado()).toList();
+		
+		return observacionesSinSolucionar;
+	}
+	
+	public List<Observacion> getObsSolucionadas() {
+		List<Observacion> observacionesSolucionadas = this.getObservaciones().stream().filter(o -> o.isFueSolucionado()).toList();
+		
+		return observacionesSolucionadas;
+	}
+	
 	
 	
 	

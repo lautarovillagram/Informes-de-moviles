@@ -46,4 +46,8 @@ public class Observacion {
 		this.setFecha(LocalDateTime.now());
 
 	}
+	
+	public String toString() {
+		return this.getObs();
+	}
 }

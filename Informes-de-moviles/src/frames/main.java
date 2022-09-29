@@ -89,8 +89,8 @@ public class main extends JFrame {
 
 	public void cargarObservaciones() {
 		comboQuitarObservacion.removeAllItems();
-		Movil movilSeleccionado = (Movil) comboVerMovil.getSelectedItem();
-		for (Observacion observacion : movilSeleccionado.getObservaciones()) {
+		
+		for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
 			comboQuitarObservacion.addItem(observacion);
 		}
 	}
@@ -101,6 +101,7 @@ public class main extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSistema(new Sistema());
+		this.setLocationRelativeTo(null);
 		cargarMoviles();
 
 		setContentPane(contentPane);
@@ -148,7 +149,7 @@ public class main extends JFrame {
 					Movil movilSeleccionado = (Movil) comboVerObservaciones.getSelectedItem();
 					textArea.setText("");
 
-					for (Observacion observacion : movilSeleccionado.getObservaciones()) {
+					for (Observacion observacion : movilSeleccionado.getObsSinSolucionar()) {
 						textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 								+ observacion.getFecha().getMonthValue() + "\n");
 					}
@@ -200,6 +201,7 @@ public class main extends JFrame {
 							checkCriquet.isSelected(), textKm.getText());
 					getSistema().setMoviles(movilesSinElActualizado);
 					getSistema().getMoviles().add(movilActualizado);
+					JOptionPane.showMessageDialog(null, "Movil actualizado");
 					
 				}
 			}
@@ -211,6 +213,21 @@ public class main extends JFrame {
 		contentPane.add(comboQuitarObservacion);
 
 		JButton btnQuitarObservacion = new JButton("quitar observacion");
+		btnQuitarObservacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnQuitarObservacion) {
+					String observacionSeleccionada = (String) comboQuitarObservacion.getSelectedItem().toString();
+					for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
+						if (observacion.toString() == observacionSeleccionada) {
+							observacion.setFueSolucionado(true);
+						}
+					}
+					JOptionPane.showMessageDialog(null, "observacion solucionada");
+					cargarObservaciones();
+					
+				}
+			}
+		});
 		btnQuitarObservacion.setBounds(930, 175, 149, 20);
 		contentPane.add(btnQuitarObservacion);
 
@@ -235,6 +252,9 @@ public class main extends JFrame {
 				if (e.getSource() == btnAgregarObs) {
 					Observacion obs = new Observacion(textAgregarObs.getText(), getMovilActualizandose());
 					getMovilActualizandose().getObservaciones().add(0, obs);
+					JOptionPane.showMessageDialog(null, "observacion agregada");
+					textAgregarObs.setText("");
+					cargarObservaciones();
 				}
 			}
 		});
@@ -242,6 +262,20 @@ public class main extends JFrame {
 		contentPane.add(btnAgregarObs);
 
 		JButton btnVerSolucionadas = new JButton("ver solucionadas");
+		btnVerSolucionadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnVerSolucionadas) {
+					Movil movilSeleccionado = (Movil) comboVerObservaciones.getSelectedItem();
+					textArea.setText("");
+
+					for (Observacion observacion : movilSeleccionado.getObsSolucionadas()) {
+						textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
+								+ observacion.getFecha().getMonthValue() + "\n");
+					}
+
+				}
+			}
+		});
 		btnVerSolucionadas.setBounds(409, 67, 147, 21);
 		contentPane.add(btnVerSolucionadas);
 
