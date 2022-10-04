@@ -89,7 +89,7 @@ public class main extends JFrame {
 
 	public void cargarObservaciones() {
 		comboQuitarObservacion.removeAllItems();
-		
+
 		for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
 			comboQuitarObservacion.addItem(observacion);
 		}
@@ -97,7 +97,7 @@ public class main extends JFrame {
 
 	public main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1240, 517);
+		setBounds(100, 100, 769, 517);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSistema(new Sistema());
@@ -117,9 +117,11 @@ public class main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnAgregarMovil) {
 
-					Movil movilAAgregar = new Movil(textAgregarMovil.getText());
+					String dominio = textAgregarMovil.getText();
+
+					Movil movilAAgregar = new Movil(dominio);
 					getSistema().getMoviles().add(movilAAgregar);
-					JOptionPane.showMessageDialog(null, "Movil agregado");
+					JOptionPane.showMessageDialog(null, "Movil " + dominio + " agregado");
 					textAgregarMovil.setText("");
 					cargarMoviles();
 				}
@@ -136,7 +138,7 @@ public class main extends JFrame {
 		JScrollPane scrollMes1 = new JScrollPane();
 		scrollMes1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollMes1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollMes1.setBounds(22, 112, 538, 351);
+		scrollMes1.setBounds(22, 112, 390, 351);
 		contentPane.add(scrollMes1);
 
 		JTextArea textArea = new JTextArea();
@@ -162,10 +164,10 @@ public class main extends JFrame {
 
 		JLabel lblModificarMovil = new JLabel("Modificar Movil");
 		lblModificarMovil.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblModificarMovil.setBounds(787, 10, 149, 18);
+		lblModificarMovil.setBounds(520, 10, 149, 18);
 		contentPane.add(lblModificarMovil);
 
-		comboVerMovil.setBounds(697, 32, 140, 20);
+		comboVerMovil.setBounds(444, 40, 140, 20);
 		contentPane.add(comboVerMovil);
 
 		JButton btnVerMovil = new JButton("ver");
@@ -185,31 +187,40 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerMovil.setBounds(893, 31, 89, 23);
+		btnVerMovil.setBounds(627, 39, 89, 23);
 		contentPane.add(btnVerMovil);
 
 		JButton btnActualizarMovil = new JButton("actualizar");
 		btnActualizarMovil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnActualizarMovil) {
-					String dominioDelActualizado = getMovilActualizandose().toString();
-					List<Movil> movilesSinElActualizado = getSistema().getMoviles().stream()
-							.filter(m -> m.getDominio() != dominioDelActualizado).toList();
+					String dominio = getMovilActualizandose().getDominio();
+					String kilometros = textKm.getText();
+					boolean necesitaTaller = checkNecesitaTaller.isSelected();
+					boolean enElTaller = checkEnElTaller.isSelected();
+					boolean matafuego = checkMatafuego.isSelected();
+					boolean criquet = checkCriquet.isSelected();
 
-					Movil movilActualizado = new Movil(getMovilActualizandose().getDominio(),
-							checkEnElTaller.isSelected(), checkNecesitaTaller.isSelected(), checkMatafuego.isSelected(),
-							checkCriquet.isSelected(), textKm.getText());
-					getSistema().setMoviles(movilesSinElActualizado);
-					getSistema().getMoviles().add(movilActualizado);
-					JOptionPane.showMessageDialog(null, "Movil actualizado");
-					
+					for (Movil movil : getSistema().getMoviles()) {
+						if (movil.toString() == dominio) {
+							movil.setKilometraje(kilometros);
+							movil.setNecesitaTaller(necesitaTaller);
+							movil.setEnElTaller(enElTaller);
+							movil.setTieneMatafuego(matafuego);
+							movil.setTieneCriquet(criquet);
+							break;
+						}
+					}
+
+					JOptionPane.showMessageDialog(null, "Movil " + dominio + " actualizado");
+
 				}
 			}
 		});
-		btnActualizarMovil.setBounds(825, 206, 111, 23);
+		btnActualizarMovil.setBounds(536, 324, 111, 23);
 		contentPane.add(btnActualizarMovil);
 
-		comboQuitarObservacion.setBounds(595, 175, 325, 20);
+		comboQuitarObservacion.setBounds(422, 262, 325, 20);
 		contentPane.add(comboQuitarObservacion);
 
 		JButton btnQuitarObservacion = new JButton("quitar observacion");
@@ -224,25 +235,25 @@ public class main extends JFrame {
 					}
 					JOptionPane.showMessageDialog(null, "observacion solucionada");
 					cargarObservaciones();
-					
+
 				}
 			}
 		});
-		btnQuitarObservacion.setBounds(930, 175, 149, 20);
+		btnQuitarObservacion.setBounds(422, 293, 149, 20);
 		contentPane.add(btnQuitarObservacion);
 
 		JButton btnLimpiarTodas = new JButton("limpiar todas");
-		btnLimpiarTodas.setBounds(1089, 175, 125, 20);
+		btnLimpiarTodas.setBounds(622, 293, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
-		checkEnElTaller.setBounds(665, 83, 97, 23);
+		checkEnElTaller.setBounds(484, 133, 97, 23);
 		contentPane.add(checkEnElTaller);
 
-		checkNecesitaTaller.setBounds(764, 83, 125, 23);
+		checkNecesitaTaller.setBounds(484, 159, 125, 23);
 		contentPane.add(checkNecesitaTaller);
 
 		textAgregarObs = new JTextField();
-		textAgregarObs.setBounds(595, 144, 325, 20);
+		textAgregarObs.setBounds(422, 200, 325, 20);
 		contentPane.add(textAgregarObs);
 		textAgregarObs.setColumns(10);
 
@@ -258,7 +269,7 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnAgregarObs.setBounds(930, 144, 168, 20);
+		btnAgregarObs.setBounds(501, 231, 168, 20);
 		contentPane.add(btnAgregarObs);
 
 		JButton btnVerSolucionadas = new JButton("ver solucionadas");
@@ -276,30 +287,25 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerSolucionadas.setBounds(409, 67, 147, 21);
+		btnVerSolucionadas.setBounds(127, 90, 147, 21);
 		contentPane.add(btnVerSolucionadas);
 
-		textKm.setBounds(595, 113, 86, 20);
+		textKm.setBounds(598, 106, 86, 20);
 		contentPane.add(textKm);
 		textKm.setColumns(10);
 
-		JButton btnActualizarKm = new JButton("actualizar kilometros");
-		btnActualizarKm.setBounds(697, 113, 180, 20);
-		contentPane.add(btnActualizarKm);
-
-		checkCriquet.setBounds(899, 83, 97, 23);
+		checkCriquet.setBounds(630, 133, 97, 23);
 		contentPane.add(checkCriquet);
 
-		checkMatafuego.setBounds(998, 83, 97, 23);
+		checkMatafuego.setBounds(630, 159, 97, 23);
 		contentPane.add(checkMatafuego);
 
-		JLabel lblInfoMovil = new JLabel("");
-		lblInfoMovil.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInfoMovil.setBounds(32, 92, 516, 20);
-		contentPane.add(lblInfoMovil);
-
 		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDominio.setBounds(787, 58, 156, 18);
+		lblDominio.setBounds(501, 69, 156, 18);
 		contentPane.add(lblDominio);
+		
+		JLabel lblNewLabel = new JLabel("Kilometros");
+		lblNewLabel.setBounds(515, 109, 64, 14);
+		contentPane.add(lblNewLabel);
 	}
 }
