@@ -227,22 +227,39 @@ public class main extends JFrame {
 		btnQuitarObservacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnQuitarObservacion) {
-					String observacionSeleccionada = (String) comboQuitarObservacion.getSelectedItem().toString();
-					for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
-						if (observacion.toString() == observacionSeleccionada) {
-							observacion.setFueSolucionado(true);
-						}
-					}
-					JOptionPane.showMessageDialog(null, "observacion solucionada");
-					cargarObservaciones();
+					
 
+					if (comboQuitarObservacion.getSelectedItem() == null) {
+						JOptionPane.showMessageDialog(null, "No hay observacion seleccionada");
+					} else {
+						String observacionSeleccionada = comboQuitarObservacion.getSelectedItem().toString();
+						for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
+							if (observacion.toString() == observacionSeleccionada) {
+								observacion.setFueSolucionado(true);
+							}
+						}
+						JOptionPane.showMessageDialog(null, "observacion solucionada");
+						cargarObservaciones();
+
+					}
 				}
+
 			}
 		});
 		btnQuitarObservacion.setBounds(422, 293, 149, 20);
 		contentPane.add(btnQuitarObservacion);
 
 		JButton btnLimpiarTodas = new JButton("limpiar todas");
+		btnLimpiarTodas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnLimpiarTodas) {
+					JOptionPane.showConfirmDialog(null, "¿sacar todas las observaciones?");
+					getMovilActualizandose().getObsSinSolucionar().stream().forEach(o -> o.setFueSolucionado(true));
+					cargarObservaciones();
+
+				}
+			}
+		});
 		btnLimpiarTodas.setBounds(622, 293, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
@@ -303,7 +320,7 @@ public class main extends JFrame {
 		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDominio.setBounds(501, 69, 156, 18);
 		contentPane.add(lblDominio);
-		
+
 		JLabel lblNewLabel = new JLabel("Kilometros");
 		lblNewLabel.setBounds(515, 109, 64, 14);
 		contentPane.add(lblNewLabel);
