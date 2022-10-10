@@ -11,6 +11,7 @@ import clases.Observacion;
 import clases.Sistema;
 
 import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -25,6 +26,7 @@ import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 public class main extends JFrame {
 
@@ -42,7 +44,8 @@ public class main extends JFrame {
 	private Sistema sistema;
 
 	private Movil movilActualizandose;
-
+	ButtonGroup group = new ButtonGroup();
+	
 	public Movil getMovilActualizandose() {
 		return movilActualizandose;
 	}
@@ -97,7 +100,7 @@ public class main extends JFrame {
 
 	public main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 769, 517);
+		setBounds(100, 100, 769, 472);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSistema(new Sistema());
@@ -117,13 +120,18 @@ public class main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnAgregarMovil) {
 
-					String dominio = textAgregarMovil.getText();
+					if (textAgregarMovil.getText().isBlank()) {
+						JOptionPane.showMessageDialog(null, "no se asignó dominio");
+						
+					}else {
+						String dominio = textAgregarMovil.getText();
 
-					Movil movilAAgregar = new Movil(dominio);
-					getSistema().getMoviles().add(movilAAgregar);
-					JOptionPane.showMessageDialog(null, "Movil " + dominio + " agregado");
-					textAgregarMovil.setText("");
-					cargarMoviles();
+						Movil movilAAgregar = new Movil(dominio);
+						getSistema().getMoviles().add(movilAAgregar);
+						JOptionPane.showMessageDialog(null, "Movil " + dominio + " agregado");
+						textAgregarMovil.setText("");
+						cargarMoviles();
+					}
 				}
 
 			}
@@ -132,13 +140,13 @@ public class main extends JFrame {
 		contentPane.add(btnAgregarMovil);
 
 		JLabel lblDominio = new JLabel("");
-		comboVerObservaciones.setBounds(22, 67, 180, 20);
+		comboVerObservaciones.setBounds(22, 42, 140, 22);
 		contentPane.add(comboVerObservaciones);
 
 		JScrollPane scrollMes1 = new JScrollPane();
 		scrollMes1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollMes1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollMes1.setBounds(22, 112, 390, 351);
+		scrollMes1.setBounds(22, 75, 390, 326);
 		contentPane.add(scrollMes1);
 
 		JTextArea textArea = new JTextArea();
@@ -159,7 +167,7 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerObservaciones.setBounds(208, 67, 191, 21);
+		btnVerObservaciones.setBounds(166, 41, 140, 23);
 		contentPane.add(btnVerObservaciones);
 
 		JLabel lblModificarMovil = new JLabel("Modificar Movil");
@@ -167,7 +175,7 @@ public class main extends JFrame {
 		lblModificarMovil.setBounds(520, 10, 149, 18);
 		contentPane.add(lblModificarMovil);
 
-		comboVerMovil.setBounds(444, 40, 140, 20);
+		comboVerMovil.setBounds(466, 43, 140, 20);
 		contentPane.add(comboVerMovil);
 
 		JButton btnVerMovil = new JButton("ver");
@@ -187,7 +195,7 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerMovil.setBounds(627, 39, 89, 23);
+		btnVerMovil.setBounds(616, 42, 89, 23);
 		contentPane.add(btnVerMovil);
 
 		JButton btnActualizarMovil = new JButton("actualizar");
@@ -217,10 +225,10 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnActualizarMovil.setBounds(536, 324, 111, 23);
+		btnActualizarMovil.setBounds(532, 279, 111, 23);
 		contentPane.add(btnActualizarMovil);
 
-		comboQuitarObservacion.setBounds(422, 262, 325, 20);
+		comboQuitarObservacion.setBounds(422, 217, 325, 20);
 		contentPane.add(comboQuitarObservacion);
 
 		JButton btnQuitarObservacion = new JButton("quitar observacion");
@@ -246,7 +254,7 @@ public class main extends JFrame {
 
 			}
 		});
-		btnQuitarObservacion.setBounds(422, 293, 149, 20);
+		btnQuitarObservacion.setBounds(422, 248, 149, 20);
 		contentPane.add(btnQuitarObservacion);
 
 		JButton btnLimpiarTodas = new JButton("limpiar todas");
@@ -260,17 +268,17 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnLimpiarTodas.setBounds(622, 293, 125, 20);
+		btnLimpiarTodas.setBounds(598, 248, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
-		checkEnElTaller.setBounds(484, 133, 97, 23);
+		checkEnElTaller.setBounds(476, 102, 97, 23);
 		contentPane.add(checkEnElTaller);
 
-		checkNecesitaTaller.setBounds(484, 159, 125, 23);
+		checkNecesitaTaller.setBounds(476, 128, 125, 23);
 		contentPane.add(checkNecesitaTaller);
 
 		textAgregarObs = new JTextField();
-		textAgregarObs.setBounds(422, 200, 325, 20);
+		textAgregarObs.setBounds(422, 158, 325, 20);
 		contentPane.add(textAgregarObs);
 		textAgregarObs.setColumns(10);
 
@@ -286,7 +294,7 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnAgregarObs.setBounds(501, 231, 168, 20);
+		btnAgregarObs.setBounds(591, 186, 156, 20);
 		contentPane.add(btnAgregarObs);
 
 		JButton btnVerSolucionadas = new JButton("ver solucionadas");
@@ -304,17 +312,17 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerSolucionadas.setBounds(127, 90, 147, 21);
+		btnVerSolucionadas.setBounds(316, 42, 140, 23);
 		contentPane.add(btnVerSolucionadas);
 
-		textKm.setBounds(598, 106, 86, 20);
+		textKm.setBounds(590, 75, 86, 20);
 		contentPane.add(textKm);
 		textKm.setColumns(10);
 
-		checkCriquet.setBounds(630, 133, 97, 23);
+		checkCriquet.setBounds(622, 102, 97, 23);
 		contentPane.add(checkCriquet);
 
-		checkMatafuego.setBounds(630, 159, 97, 23);
+		checkMatafuego.setBounds(622, 128, 97, 23);
 		contentPane.add(checkMatafuego);
 
 		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -322,7 +330,17 @@ public class main extends JFrame {
 		contentPane.add(lblDominio);
 
 		JLabel lblNewLabel = new JLabel("Kilometros");
-		lblNewLabel.setBounds(515, 109, 64, 14);
+		lblNewLabel.setBounds(507, 78, 64, 14);
 		contentPane.add(lblNewLabel);
+		
+		JRadioButton rdMecanica = new JRadioButton("Mecanica");
+		rdMecanica.setBounds(422, 185, 86, 23);
+		contentPane.add(rdMecanica);
+		group.add(rdMecanica);
+		
+		JRadioButton rdEstetica = new JRadioButton("Estetica");
+		rdEstetica.setBounds(504, 185, 89, 23);
+		contentPane.add(rdEstetica);
+		group.add(rdEstetica);
 	}
 }
