@@ -7,6 +7,15 @@ public class Observacion {
 	private LocalDateTime fecha;
 	private Movil movil;
 	private boolean fueSolucionado;
+	private String tipo;
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public boolean isFueSolucionado() {
 		return fueSolucionado;
@@ -40,10 +49,11 @@ public class Observacion {
 		this.fecha = localDateTime;
 	}
 
-	public Observacion(String observacion, Movil movil) {
+	public Observacion(String observacion, Movil movil, String tipo) {
 		this.setObs(observacion);
 		this.setMovil(movil);
 		this.setFecha(LocalDateTime.now());
+		this.setTipo(tipo);
 
 	}
 	

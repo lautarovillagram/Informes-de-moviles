@@ -70,9 +70,7 @@ public class Movil {
 		this.necesitaTaller = necesitaTaller;
 	}
 
-	public void agregarObservacion(String observacion) {
-		observaciones.add(0, new Observacion("observacion", this));
-	}
+
 	
 	public String toString() {
 		return this.getDominio();
