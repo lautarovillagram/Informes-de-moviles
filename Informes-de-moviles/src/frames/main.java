@@ -81,6 +81,7 @@ public class main extends JFrame {
 	public void cargarMoviles() {
 		comboVerMovil.removeAllItems();
 		comboQuitarObservacion.removeAllItems();
+		comboVerObservaciones.removeAllItems();
 
 		for (Movil movil : getSistema().getMoviles()) {
 			comboVerMovil.addItem(movil);
@@ -161,8 +162,23 @@ public class main extends JFrame {
 						JOptionPane.showMessageDialog(null, "no hay un movil seleccionado");
 					} else {
 						textArea.setText("");
+						
+						List<Observacion> obsMecanicas = movilSeleccionado.getObsSinSolucionar().stream().filter(o -> o.getTipo() == "Mecanica").toList();
+						List<Observacion> obsEsteticas = movilSeleccionado.getObsSinSolucionar().stream().filter(o -> o.getTipo() == "Estetica").toList();
+						
+						textArea.append("Observaciones Mecanicas:"+ "\n");
 
-						for (Observacion observacion : movilSeleccionado.getObsSinSolucionar()) {
+						for (Observacion observacion : obsMecanicas) {
+							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
+									+ observacion.getFecha().getMonthValue() + "\n");
+						}
+						textArea.append(""+ "\n");
+						textArea.append(""+ "\n");
+						textArea.append("________________________________________"+ "\n");
+						textArea.append(""+ "\n");
+						textArea.append("Observaciones Esteticas:"+ "\n");
+
+						for (Observacion observacion : obsEsteticas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
 						}
@@ -242,7 +258,7 @@ public class main extends JFrame {
 		group.add(rdMecanica);
 
 		JRadioButton rdEstetica = new JRadioButton("Estetica");
-		rdEstetica.setBounds(504, 202, 89, 23);
+		rdEstetica.setBounds(504, 202, 86, 23);
 		contentPane.add(rdEstetica);
 		group.add(rdEstetica);
 
@@ -341,8 +357,23 @@ public class main extends JFrame {
 						JOptionPane.showMessageDialog(null, "No hay movil seleccionado");
 					} else {
 						textArea.setText("");
+						
+						List<Observacion> obsMecanicas = movilSeleccionado.getObsSolucionadas().stream().filter(o -> o.getTipo() == "Mecanica").toList();
+						List<Observacion> obsEsteticas = movilSeleccionado.getObsSolucionadas().stream().filter(o -> o.getTipo() == "Estetica").toList();
+						
+						textArea.append("Observaciones Mecanicas:"+ "\n");
 
-						for (Observacion observacion : movilSeleccionado.getObsSolucionadas()) {
+						for (Observacion observacion : obsMecanicas) {
+							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
+									+ observacion.getFecha().getMonthValue() + "\n");
+						}
+						textArea.append(""+ "\n");
+						textArea.append(""+ "\n");
+						textArea.append("________________________________________"+ "\n");
+						textArea.append(""+ "\n");
+						textArea.append("Observaciones Esteticas:"+ "\n");
+
+						for (Observacion observacion : obsEsteticas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
 						}
@@ -354,7 +385,7 @@ public class main extends JFrame {
 		btnVerSolucionadas.setBounds(316, 42, 140, 23);
 		contentPane.add(btnVerSolucionadas);
 
-		textKm.setBounds(590, 75, 86, 20);
+		textKm.setBounds(587, 98, 86, 20);
 		contentPane.add(textKm);
 		textKm.setColumns(10);
 
@@ -365,11 +396,11 @@ public class main extends JFrame {
 		contentPane.add(checkMatafuego);
 
 		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDominio.setBounds(501, 69, 156, 18);
+		lblDominio.setBounds(549, 69, 156, 18);
 		contentPane.add(lblDominio);
 
 		JLabel lblNewLabel = new JLabel("Kilometros");
-		lblNewLabel.setBounds(507, 78, 64, 14);
+		lblNewLabel.setBounds(504, 101, 64, 14);
 		contentPane.add(lblNewLabel);
 
 	}
