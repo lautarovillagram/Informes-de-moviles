@@ -39,12 +39,14 @@ public class main extends JFrame {
 	JComboBox comboQuitarObservacion = new JComboBox();
 	JCheckBox checkMatafuego = new JCheckBox("matafuego");
 	JCheckBox checkCriquet = new JCheckBox("criquet");
-	JCheckBox checkNecesitaTaller = new JCheckBox("necesita taller");
+	JCheckBox checkRTO = new JCheckBox("RTO");
 	JCheckBox checkEnElTaller = new JCheckBox("en el taller");
 	private Sistema sistema;
 
 	private Movil movilActualizandose;
 	ButtonGroup group = new ButtonGroup();
+	private JTextField textFechaMatafuego;
+	private JTextField textFechaRTO;
 
 	public Movil getMovilActualizandose() {
 		return movilActualizandose;
@@ -97,6 +99,15 @@ public class main extends JFrame {
 		for (Observacion observacion : getMovilActualizandose().getObsSinSolucionar()) {
 			comboQuitarObservacion.addItem(observacion);
 		}
+	}
+
+	public String xSitieneNadaSiNo(Boolean item) {
+		String equis = "No";
+		if (item) {
+			equis = "X";
+		}
+
+		return (equis);
 	}
 
 	public main() {
@@ -162,21 +173,36 @@ public class main extends JFrame {
 						JOptionPane.showMessageDialog(null, "no hay un movil seleccionado");
 					} else {
 						textArea.setText("");
-						
-						List<Observacion> obsMecanicas = movilSeleccionado.getObsSinSolucionar().stream().filter(o -> o.getTipo() == "Mecanica").toList();
-						List<Observacion> obsEsteticas = movilSeleccionado.getObsSinSolucionar().stream().filter(o -> o.getTipo() == "Estetica").toList();
-						
-						textArea.append("Observaciones Mecanicas:"+ "\n");
+
+						List<Observacion> obsMecanicas = movilSeleccionado.getObsSinSolucionar().stream()
+								.filter(o -> o.getTipo() == "Mecanica").toList();
+						List<Observacion> obsEsteticas = movilSeleccionado.getObsSinSolucionar().stream()
+								.filter(o -> o.getTipo() == "Estetica").toList();
+
+						textArea.append("Movil " + movilSeleccionado.getDominio() + ":" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("Kilometros: " + movilSeleccionado.getKilometraje() + "\n");
+						textArea.append(
+								"Criquet: [" + xSitieneNadaSiNo(movilSeleccionado.isTieneCriquet()) + "]" + "\n");
+						textArea.append("Está en el taller: [" + xSitieneNadaSiNo(movilSeleccionado.isEnElTaller())
+								+ "]" + "\n");
+						textArea.append("Matafuego: [" + xSitieneNadaSiNo(movilSeleccionado.isTieneMatafuego())
+								+ "] con vencimiento el: " + movilSeleccionado.getFechaMatafuego() + "\n");
+						textArea.append("RTO: [" + xSitieneNadaSiNo(movilSeleccionado.isTieneRTO())
+								+ "] con vencimiento el: " + movilSeleccionado.getFechaRTO() + "\n");
+						textArea.append("" + "\n");
+						textArea.append("Observaciones Mecanicas:" + "\n");
 
 						for (Observacion observacion : obsMecanicas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
 						}
-						textArea.append(""+ "\n");
-						textArea.append(""+ "\n");
-						textArea.append("________________________________________"+ "\n");
-						textArea.append(""+ "\n");
-						textArea.append("Observaciones Esteticas:"+ "\n");
+						textArea.append("" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("________________________________________" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("Observaciones Esteticas:" + "\n");
 
 						for (Observacion observacion : obsEsteticas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
@@ -209,9 +235,11 @@ public class main extends JFrame {
 						movilActualizandose = movilSeleccionado;
 						checkCriquet.setSelected(movilSeleccionado.isTieneCriquet());
 						checkMatafuego.setSelected(movilSeleccionado.isTieneMatafuego());
-						checkNecesitaTaller.setSelected(movilSeleccionado.isNecesitaTaller());
+						checkRTO.setSelected(movilSeleccionado.isTieneRTO());
 						checkEnElTaller.setSelected(movilSeleccionado.isEnElTaller());
 						textKm.setText(movilSeleccionado.getKilometraje());
+						textFechaRTO.setText(movilSeleccionado.getFechaRTO());
+						textFechaMatafuego.setText(movilSeleccionado.getFechaMatafuego());
 						lblDominio.setText("Movil " + movilSeleccionado.toString());
 						cargarObservaciones();
 					}
@@ -228,18 +256,22 @@ public class main extends JFrame {
 				if (e.getSource() == btnActualizarMovil) {
 					String dominio = getMovilActualizandose().getDominio();
 					String kilometros = textKm.getText();
-					boolean necesitaTaller = checkNecesitaTaller.isSelected();
+					boolean tieneRTO = checkRTO.isSelected();
 					boolean enElTaller = checkEnElTaller.isSelected();
 					boolean matafuego = checkMatafuego.isSelected();
 					boolean criquet = checkCriquet.isSelected();
+					String fechaRTO = textFechaRTO.getText();
+					String fechaMatafuego = textFechaMatafuego.getText();
 
 					for (Movil movil : getSistema().getMoviles()) {
 						if (movil.toString() == dominio) {
 							movil.setKilometraje(kilometros);
-							movil.setNecesitaTaller(necesitaTaller);
+							movil.setTieneRTO(tieneRTO);
 							movil.setEnElTaller(enElTaller);
 							movil.setTieneMatafuego(matafuego);
 							movil.setTieneCriquet(criquet);
+							movil.setFechaMatafuego(fechaMatafuego);
+							movil.setFechaRTO(fechaRTO);
 							break;
 						}
 					}
@@ -249,20 +281,20 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnActualizarMovil.setBounds(532, 296, 111, 23);
+		btnActualizarMovil.setBounds(528, 326, 111, 23);
 		contentPane.add(btnActualizarMovil);
 
 		JRadioButton rdMecanica = new JRadioButton("Mecanica");
-		rdMecanica.setBounds(422, 202, 86, 23);
+		rdMecanica.setBounds(418, 232, 86, 23);
 		contentPane.add(rdMecanica);
 		group.add(rdMecanica);
 
 		JRadioButton rdEstetica = new JRadioButton("Estetica");
-		rdEstetica.setBounds(504, 202, 86, 23);
+		rdEstetica.setBounds(500, 232, 86, 23);
 		contentPane.add(rdEstetica);
 		group.add(rdEstetica);
 
-		comboQuitarObservacion.setBounds(422, 234, 325, 20);
+		comboQuitarObservacion.setBounds(418, 264, 325, 20);
 		contentPane.add(comboQuitarObservacion);
 
 		JButton btnQuitarObservacion = new JButton("quitar observacion");
@@ -287,7 +319,7 @@ public class main extends JFrame {
 
 			}
 		});
-		btnQuitarObservacion.setBounds(422, 265, 149, 20);
+		btnQuitarObservacion.setBounds(418, 295, 149, 20);
 		contentPane.add(btnQuitarObservacion);
 
 		JButton btnLimpiarTodas = new JButton("limpiar todas");
@@ -305,17 +337,17 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnLimpiarTodas.setBounds(598, 265, 125, 20);
+		btnLimpiarTodas.setBounds(594, 295, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
 		checkEnElTaller.setBounds(480, 125, 97, 23);
 		contentPane.add(checkEnElTaller);
 
-		checkNecesitaTaller.setBounds(480, 151, 125, 23);
-		contentPane.add(checkNecesitaTaller);
+		checkRTO.setBounds(480, 151, 125, 23);
+		contentPane.add(checkRTO);
 
 		textAgregarObs = new JTextField();
-		textAgregarObs.setBounds(422, 175, 325, 20);
+		textAgregarObs.setBounds(418, 205, 325, 20);
 		contentPane.add(textAgregarObs);
 		textAgregarObs.setColumns(10);
 
@@ -345,7 +377,7 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnAgregarObs.setBounds(591, 203, 156, 20);
+		btnAgregarObs.setBounds(587, 233, 156, 20);
 		contentPane.add(btnAgregarObs);
 
 		JButton btnVerSolucionadas = new JButton("ver solucionadas");
@@ -357,21 +389,23 @@ public class main extends JFrame {
 						JOptionPane.showMessageDialog(null, "No hay movil seleccionado");
 					} else {
 						textArea.setText("");
-						
-						List<Observacion> obsMecanicas = movilSeleccionado.getObsSolucionadas().stream().filter(o -> o.getTipo() == "Mecanica").toList();
-						List<Observacion> obsEsteticas = movilSeleccionado.getObsSolucionadas().stream().filter(o -> o.getTipo() == "Estetica").toList();
-						
-						textArea.append("Observaciones Mecanicas:"+ "\n");
+
+						List<Observacion> obsMecanicas = movilSeleccionado.getObsSolucionadas().stream()
+								.filter(o -> o.getTipo() == "Mecanica").toList();
+						List<Observacion> obsEsteticas = movilSeleccionado.getObsSolucionadas().stream()
+								.filter(o -> o.getTipo() == "Estetica").toList();
+
+						textArea.append("Observaciones Mecanicas:" + "\n");
 
 						for (Observacion observacion : obsMecanicas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
 						}
-						textArea.append(""+ "\n");
-						textArea.append(""+ "\n");
-						textArea.append("________________________________________"+ "\n");
-						textArea.append(""+ "\n");
-						textArea.append("Observaciones Esteticas:"+ "\n");
+						textArea.append("" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("________________________________________" + "\n");
+						textArea.append("" + "\n");
+						textArea.append("Observaciones Esteticas:" + "\n");
 
 						for (Observacion observacion : obsEsteticas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
@@ -402,6 +436,16 @@ public class main extends JFrame {
 		JLabel lblNewLabel = new JLabel("Kilometros");
 		lblNewLabel.setBounds(504, 101, 64, 14);
 		contentPane.add(lblNewLabel);
+
+		textFechaMatafuego = new JTextField();
+		textFechaMatafuego.setBounds(619, 174, 104, 20);
+		contentPane.add(textFechaMatafuego);
+		textFechaMatafuego.setColumns(10);
+
+		textFechaRTO = new JTextField();
+		textFechaRTO.setColumns(10);
+		textFechaRTO.setBounds(456, 174, 104, 20);
+		contentPane.add(textFechaRTO);
 
 	}
 }

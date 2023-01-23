@@ -8,11 +8,28 @@ public class Movil {
 	private String dominio;
 	private List<Observacion> observaciones = new ArrayList<>();
 	private boolean enElTaller;
-	private boolean necesitaTaller;
-	private String kilometraje;
+	private boolean tieneRTO;
+	private String kilometraje = "";
 	private boolean tieneCriquet;
 	private boolean tieneMatafuego;
-	
+	private String fechaRTO = "";
+	private String fechaMatafuego = "";
+
+	public String getFechaRTO() {
+		return fechaRTO;
+	}
+
+	public void setFechaRTO(String fechaRTO) {
+		this.fechaRTO = fechaRTO;
+	}
+
+	public String getFechaMatafuego() {
+		return fechaMatafuego;
+	}
+
+	public void setFechaMatafuego(String fechaMatafuego) {
+		this.fechaMatafuego = fechaMatafuego;
+	}
 
 	public boolean isTieneCriquet() {
 		return tieneCriquet;
@@ -62,48 +79,44 @@ public class Movil {
 		this.enElTaller = enElTaller;
 	}
 
-	public boolean isNecesitaTaller() {
-		return necesitaTaller;
+	public boolean isTieneRTO() {
+		return tieneRTO;
 	}
 
-	public void setNecesitaTaller(boolean necesitaTaller) {
-		this.necesitaTaller = necesitaTaller;
+	public void setTieneRTO(boolean tieneRTO) {
+		this.tieneRTO = tieneRTO;
 	}
 
-
-	
 	public String toString() {
 		return this.getDominio();
 	}
-	
+
 	public Movil(String dominio) {
 		this.dominio = dominio;
 	}
-	
-	public Movil (String dominio, boolean enTaller, boolean necesitaTaller, boolean tieneMatafuego, boolean tieneCriquet, String kilometros) {
+
+	public Movil(String dominio, boolean enTaller, boolean necesitaTaller, boolean tieneMatafuego, boolean tieneCriquet,
+			String kilometros) {
 		this.dominio = dominio;
 		this.enElTaller = enTaller;
-		this.necesitaTaller = necesitaTaller;
+		this.tieneRTO = tieneRTO;
 		this.tieneMatafuego = tieneMatafuego;
 		this.tieneCriquet = tieneCriquet;
 		this.kilometraje = kilometros;
 	}
-	
+
 	public List<Observacion> getObsSinSolucionar() {
-		List<Observacion> observacionesSinSolucionar = this.getObservaciones().stream().filter(o -> !o.isFueSolucionado()).toList();
-		
+		List<Observacion> observacionesSinSolucionar = this.getObservaciones().stream()
+				.filter(o -> !o.isFueSolucionado()).toList();
+
 		return observacionesSinSolucionar;
 	}
-	
+
 	public List<Observacion> getObsSolucionadas() {
-		List<Observacion> observacionesSolucionadas = this.getObservaciones().stream().filter(o -> o.isFueSolucionado()).toList();
-		
+		List<Observacion> observacionesSolucionadas = this.getObservaciones().stream().filter(o -> o.isFueSolucionado())
+				.toList();
+
 		return observacionesSolucionadas;
 	}
-	
-	
-	
-	
-	
 
 }
