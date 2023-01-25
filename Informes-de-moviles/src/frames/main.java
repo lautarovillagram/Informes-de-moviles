@@ -380,44 +380,22 @@ public class main extends JFrame {
 		btnAgregarObs.setBounds(587, 233, 156, 20);
 		contentPane.add(btnAgregarObs);
 
-		JButton btnVerSolucionadas = new JButton("ver solucionadas");
-		btnVerSolucionadas.addActionListener(new ActionListener() {
+		JButton btnVerEnElTaller = new JButton("en el taller");
+		btnVerEnElTaller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == btnVerSolucionadas) {
-					Movil movilSeleccionado = (Movil) comboVerObservaciones.getSelectedItem();
-					if (movilSeleccionado == null) {
-						JOptionPane.showMessageDialog(null, "No hay movil seleccionado");
-					} else {
-						textArea.setText("");
+				if (e.getSource() == btnVerEnElTaller) {
+					textArea.setText("Moviles en el taller: " + "\n");
+					textArea.append("" + "\n");
+					for (Movil movil : sistema.getMoviles().stream().filter(movil -> movil.isEnElTaller()).toList()) {
+						textArea.append(movil.getDominio() + "\n");
 
-						List<Observacion> obsMecanicas = movilSeleccionado.getObsSolucionadas().stream()
-								.filter(o -> o.getTipo() == "Mecanica").toList();
-						List<Observacion> obsEsteticas = movilSeleccionado.getObsSolucionadas().stream()
-								.filter(o -> o.getTipo() == "Estetica").toList();
-
-						textArea.append("Observaciones Mecanicas:" + "\n");
-
-						for (Observacion observacion : obsMecanicas) {
-							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
-									+ observacion.getFecha().getMonthValue() + "\n");
-						}
-						textArea.append("" + "\n");
-						textArea.append("" + "\n");
-						textArea.append("________________________________________" + "\n");
-						textArea.append("" + "\n");
-						textArea.append("Observaciones Esteticas:" + "\n");
-
-						for (Observacion observacion : obsEsteticas) {
-							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
-									+ observacion.getFecha().getMonthValue() + "\n");
-						}
 					}
 
 				}
 			}
 		});
-		btnVerSolucionadas.setBounds(316, 42, 140, 23);
-		contentPane.add(btnVerSolucionadas);
+		btnVerEnElTaller.setBounds(316, 42, 140, 23);
+		contentPane.add(btnVerEnElTaller);
 
 		textKm.setBounds(587, 98, 86, 20);
 		contentPane.add(textKm);
