@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
@@ -110,7 +111,19 @@ public class main extends JFrame {
 		return (equis);
 	}
 
+	public void cargarMovilesDePrueba() {
+		Movil hte121 = new Movil("hte121");
+		Movil ojw563 = new Movil("ojw563");
+		Movil af034bo = new Movil("af034bo");
+		Movil oey405 = new Movil("oey405");
+		getSistema().getMoviles().add(af034bo);
+		getSistema().getMoviles().add(hte121);
+		getSistema().getMoviles().add(oey405);
+		getSistema().getMoviles().add(ojw563);
+	}
+
 	public main() {
+		setTitle("Gestor de moviles");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 472);
 		contentPane = new JPanel();
@@ -193,17 +206,15 @@ public class main extends JFrame {
 								+ "] con vencimiento el: " + movilSeleccionado.getFechaRTO() + "\n");
 						textArea.append("" + "\n");
 						textArea.append("Observaciones Mecanicas:" + "\n");
-
+						textArea.append("" + "\n");
 						for (Observacion observacion : obsMecanicas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
 						}
-						textArea.append("" + "\n");
-						textArea.append("" + "\n");
 						textArea.append("________________________________________" + "\n");
 						textArea.append("" + "\n");
 						textArea.append("Observaciones Esteticas:" + "\n");
-
+						textArea.append("" + "\n");
 						for (Observacion observacion : obsEsteticas) {
 							textArea.append(observacion.getObs() + " | " + observacion.getFecha().getDayOfMonth() + "/"
 									+ observacion.getFecha().getMonthValue() + "\n");
@@ -224,7 +235,7 @@ public class main extends JFrame {
 		comboVerMovil.setBounds(466, 43, 140, 20);
 		contentPane.add(comboVerMovil);
 
-		JButton btnVerMovil = new JButton("ver");
+		JButton btnVerMovil = new JButton("modificar");
 		btnVerMovil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnVerMovil) {
@@ -247,37 +258,41 @@ public class main extends JFrame {
 				}
 			}
 		});
-		btnVerMovil.setBounds(616, 42, 89, 23);
+		btnVerMovil.setBounds(616, 42, 127, 23);
 		contentPane.add(btnVerMovil);
 
 		JButton btnActualizarMovil = new JButton("actualizar");
 		btnActualizarMovil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnActualizarMovil) {
-					String dominio = getMovilActualizandose().getDominio();
-					String kilometros = textKm.getText();
-					boolean tieneRTO = checkRTO.isSelected();
-					boolean enElTaller = checkEnElTaller.isSelected();
-					boolean matafuego = checkMatafuego.isSelected();
-					boolean criquet = checkCriquet.isSelected();
-					String fechaRTO = textFechaRTO.getText();
-					String fechaMatafuego = textFechaMatafuego.getText();
+					if (movilActualizandose == null) {
+						JOptionPane.showMessageDialog(null, "no hay movil seleccionado");
 
-					for (Movil movil : getSistema().getMoviles()) {
-						if (movil.toString() == dominio) {
-							movil.setKilometraje(kilometros);
-							movil.setTieneRTO(tieneRTO);
-							movil.setEnElTaller(enElTaller);
-							movil.setTieneMatafuego(matafuego);
-							movil.setTieneCriquet(criquet);
-							movil.setFechaMatafuego(fechaMatafuego);
-							movil.setFechaRTO(fechaRTO);
-							break;
+					} else {
+						String dominio = getMovilActualizandose().getDominio();
+						String kilometros = textKm.getText();
+						boolean tieneRTO = checkRTO.isSelected();
+						boolean enElTaller = checkEnElTaller.isSelected();
+						boolean matafuego = checkMatafuego.isSelected();
+						boolean criquet = checkCriquet.isSelected();
+						String fechaRTO = textFechaRTO.getText();
+						String fechaMatafuego = textFechaMatafuego.getText();
+
+						for (Movil movil : getSistema().getMoviles()) {
+							if (movil.toString() == dominio) {
+								movil.setKilometraje(kilometros);
+								movil.setTieneRTO(tieneRTO);
+								movil.setEnElTaller(enElTaller);
+								movil.setTieneMatafuego(matafuego);
+								movil.setTieneCriquet(criquet);
+								movil.setFechaMatafuego(fechaMatafuego);
+								movil.setFechaRTO(fechaRTO);
+								break;
+							}
 						}
+
+						JOptionPane.showMessageDialog(null, "Movil " + dominio + " actualizado");
 					}
-
-					JOptionPane.showMessageDialog(null, "Movil " + dominio + " actualizado");
-
 				}
 			}
 		});
@@ -424,6 +439,19 @@ public class main extends JFrame {
 		textFechaRTO.setColumns(10);
 		textFechaRTO.setBounds(456, 174, 104, 20);
 		contentPane.add(textFechaRTO);
+
+		JButton btnMovilesPrueba = new JButton("moviles de prueba");
+		btnMovilesPrueba.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnMovilesPrueba) {
+					cargarMovilesDePrueba();
+					cargarMoviles();
+
+				}
+			}
+		});
+		btnMovilesPrueba.setBounds(316, 10, 140, 23);
+		contentPane.add(btnMovilesPrueba);
 
 	}
 }
