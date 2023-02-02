@@ -355,10 +355,10 @@ public class main extends JFrame {
 		btnLimpiarTodas.setBounds(594, 295, 125, 20);
 		contentPane.add(btnLimpiarTodas);
 
-		checkEnElTaller.setBounds(480, 125, 97, 23);
+		checkEnElTaller.setBounds(470, 129, 97, 23);
 		contentPane.add(checkEnElTaller);
 
-		checkRTO.setBounds(480, 151, 125, 23);
+		checkRTO.setBounds(470, 155, 125, 23);
 		contentPane.add(checkRTO);
 
 		textAgregarObs = new JTextField();
@@ -416,10 +416,10 @@ public class main extends JFrame {
 		contentPane.add(textKm);
 		textKm.setColumns(10);
 
-		checkCriquet.setBounds(626, 125, 97, 23);
+		checkCriquet.setBounds(616, 129, 97, 23);
 		contentPane.add(checkCriquet);
 
-		checkMatafuego.setBounds(626, 151, 97, 23);
+		checkMatafuego.setBounds(616, 155, 97, 23);
 		contentPane.add(checkMatafuego);
 
 		lblDominio.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -431,13 +431,13 @@ public class main extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		textFechaMatafuego = new JTextField();
-		textFechaMatafuego.setBounds(619, 174, 104, 20);
+		textFechaMatafuego.setBounds(609, 178, 104, 20);
 		contentPane.add(textFechaMatafuego);
 		textFechaMatafuego.setColumns(10);
 
 		textFechaRTO = new JTextField();
 		textFechaRTO.setColumns(10);
-		textFechaRTO.setBounds(456, 174, 104, 20);
+		textFechaRTO.setBounds(446, 178, 104, 20);
 		contentPane.add(textFechaRTO);
 
 		JButton btnMovilesPrueba = new JButton("moviles de prueba");
